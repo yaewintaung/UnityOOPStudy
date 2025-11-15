@@ -5,7 +5,7 @@ public class MeleeEnemy : Enemy
 
     public override void Attack()
     {
-        Debug.Log("melee attack");
+        GameManager.Instance.GetActivePlayer().TakeDamage(1);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

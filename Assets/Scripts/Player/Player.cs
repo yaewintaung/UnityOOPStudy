@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -20,7 +21,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 inputVector;
     private Weapon weapon;
-    private int health;
+    private int health = 30;
 
 
     void Start()
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
         if(weapon != null)
         {
             weapon.Reload();
+            UIManager.Instance.UpdateAmmoText(weapon.GetCurrentAmmo());
         }
     }
 
@@ -52,6 +54,8 @@ public class Player : MonoBehaviour
         }
     }
 
+
+
     private void GameInput_OnAttackClick(object sender, System.EventArgs e)
     {
         if(weapon != null)
@@ -59,6 +63,7 @@ public class Player : MonoBehaviour
             if(weapon.GetCurrentAmmo() > 0)
             {
                 weapon.Fire();
+                UIManager.Instance.UpdateAmmoText(weapon.GetCurrentAmmo());
             }
             else
             {
@@ -79,6 +84,8 @@ public class Player : MonoBehaviour
         rb.linearVelocityX = inputVector.x * speed;
     }
 
+
+
     public void TakeDamage(int damage)
     {
         health -= damage;
@@ -92,19 +99,36 @@ public class Player : MonoBehaviour
         }
     }
 
+
+
+    
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.TryGetComponent<IInteractable>(out IInteractable interactable))
+        if (collision.collider.TryGetComponent<IInteractable>(out IInteractable interactable))
         {
-            if(interactable is IHealable healable)
+            if (interactable is IHealable healable)
             {
-                health += healable.GetHealAmount();
+                if (health < maxHealth)
+                {
+                    health += healable.GetHealAmount();
+                    OnPlyerHealthUpdate?.Invoke(this, new OnPlyerHealthUpdateEventArgs
+                    {
+                        playerHealth = health
+                    });
+                    interactable.Interact();
+                }
             }
-            else if(interactable is IDamageable damageable)
+            else if (interactable is IDamageable damageable)
             {
-                health -= damageable.GetDamageAmount();
+                TakeDamage(damageable.GetDamageAmount());
+                OnPlyerHealthUpdate?.Invoke(this, new OnPlyerHealthUpdateEventArgs
+                {
+                    playerHealth = health
+                });
+                interactable.Interact();
             }
-            interactable.Interact();
+            
         }
     }
 

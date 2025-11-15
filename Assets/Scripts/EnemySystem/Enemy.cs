@@ -30,7 +30,7 @@ public abstract class Enemy : MonoBehaviour
         if (health <= 0)
         {
             GameManager.Instance.SetEnemyCount(GameManager.Instance.GetEnemyCouont() - 1);
-            Destroy(gameObject,.3f);
+            Destroy(gameObject,0.05f);
         }
     }
 

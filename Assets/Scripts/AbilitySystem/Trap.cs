@@ -11,6 +11,6 @@ public class Trap : MonoBehaviour, IDamageable, IInteractable
 
     public void Interact()
     {
-        Destroy(gameObject);
+        
     }
 }
