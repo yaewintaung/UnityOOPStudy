@@ -22,6 +22,10 @@ public class Player : MonoBehaviour
     private Vector2 inputVector;
     private Weapon weapon;
     private int health = 30;
+    private float baseSpeed = 5f;
+
+    private Weapon tempWeapon;
+    private float shieldEffect = 0f;
 
 
     void Start()
@@ -140,5 +144,25 @@ public class Player : MonoBehaviour
     public int GetCurrentHealth()
     {
         return health;
+    }
+
+    public void SetShield(float shield)
+    {
+        shieldEffect = shield;
+    }
+
+    public void EquipTemporyWeapon(Weapon weapon)
+    {
+        tempWeapon = weapon;
+    }
+
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
+    }
+
+    public float GetSpeed()
+    {
+        return baseSpeed;
     }
 }
