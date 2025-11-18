@@ -13,7 +13,6 @@ public class FlyEnemy : Enemy
 
     private void Update()
     {
-        Debug.Log(distanceToPlayer.x);
         if(Mathf.Abs(distanceToPlayer.x) <= 0.1f)
         {
             if (Time.time > nextAttackTime)

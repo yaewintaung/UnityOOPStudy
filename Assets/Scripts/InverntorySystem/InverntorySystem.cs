@@ -15,8 +15,13 @@ public class InverntorySystem : MonoBehaviour
         items.Remove(item);
     }
 
-    public void UseItem()
+    public void UseItem(Item item)
     {
+        item.Use();
+    }
 
+    public List<Item> GetItems()
+    {
+        return items; 
     }
 }
