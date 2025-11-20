@@ -1,12 +1,22 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class InverntoryContainer : MonoBehaviour
 {
+
+    public event EventHandler<OnSelectedSlotChangeEventArg> OnSelectedSlotChanged;
+    public class OnSelectedSlotChangeEventArg
+    {
+        public Item slot;
+    }
+
     [SerializeField] private InverntorySystem inventorySystem;
 
     [SerializeField] private List<ItemSlot> itemSlots;
+
+    Item selectedItem;
 
 
     private void Start()
@@ -25,11 +35,16 @@ public class InverntoryContainer : MonoBehaviour
             if(slotIndex < itemSlots.Count)
             {
                 itemSlots[slotIndex].SetItem(item);
+
                 itemSlots[slotIndex].ItemButton().onClick.AddListener(() =>
                 {
                     inventorySystem.UseItem(item);
-                    inventorySystem.RemoveItem(item);
+                    OnSelectedSlotChanged?.Invoke(this, new OnSelectedSlotChangeEventArg
+                    {
+                        slot = item
+                    });
                 });
+
                 slotIndex++;
             }
         }

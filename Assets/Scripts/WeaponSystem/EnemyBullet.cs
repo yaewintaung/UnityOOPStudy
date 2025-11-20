@@ -11,7 +11,6 @@ public class EnemyBullet : Bullet
             var player = collision.GetComponent<Player>();
             if (player != null)
             {
-                Debug.Log("Bullet Damage: " + damage);
                 player.TakeDamage(damage);
             }
         }

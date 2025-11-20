@@ -17,7 +17,7 @@ public class InverntorySystem : MonoBehaviour
 
     public void UseItem(Item item)
     {
-        item.Use();
+        item.Use(this);
     }
 
     public List<Item> GetItems()

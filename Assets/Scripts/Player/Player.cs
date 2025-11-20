@@ -82,6 +82,12 @@ public class Player : MonoBehaviour
         
     }
 
+    public void SwitchWeapon(Weapon weapon)
+    {
+        this.weapon = weapon;
+        weaponHolder.SwitchWeapon(weapon);
+    }
+
 
     private void FixedUpdate()
     {

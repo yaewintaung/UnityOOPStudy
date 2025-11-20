@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class WeaponHolder : MonoBehaviour
 {
+    [SerializeField] private Transform weaponHoldPoint;
     private void Update()
     {
         if(Mouse.current != null)
@@ -22,9 +23,30 @@ public class WeaponHolder : MonoBehaviour
     {
         if(transform.parent != null)
         {
-            return transform.GetChild(0).GetComponent<Weapon>();
+            return weaponHoldPoint.GetChild(0).GetComponent<Weapon>();
         }
 
         return null;
+    }
+
+    public void SwitchWeapon(Weapon newWeapon)
+    {
+        if (weaponHoldPoint.GetChild(0).TryGetComponent<Weapon>(out Weapon weapon))
+        {
+            weapon.transform.SetParent(null);
+            weapon.gameObject.SetActive(false);
+        }
+        if (newWeapon != null)
+        {
+            newWeapon.gameObject.SetActive(true);
+            newWeapon.transform.SetParent(weaponHoldPoint);
+            newWeapon.transform.localPosition = Vector3.zero;
+            newWeapon.transform.localRotation = Quaternion.identity;
+            
+        }
+        
+        
+
+
     }
 }

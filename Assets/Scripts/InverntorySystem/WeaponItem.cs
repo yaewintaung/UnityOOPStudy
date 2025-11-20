@@ -2,8 +2,16 @@ using UnityEngine;
 
 public class WeaponItem : Item
 {
-    public override void Use()
+    [SerializeField] private Weapon weapon;
+    
+    public override void Use(InverntorySystem inverntorySystem)
     {
-        Debug.Log("weapon has been used");
+        GameManager.Instance.GetActivePlayer().SwitchWeapon(weapon);
+        //Debug.Log("weapon has been used");
+    }
+
+    public Weapon GetWeapon()
+    {
+        return weapon; 
     }
 }
